@@ -1,0 +1,70 @@
+enum Status {
+  WAIT_APPROVE
+  PUBLISHED
+  LOCKED
+}
+
+input PostInput {
+  title: String!
+  summary: String
+  content: String!
+  imageUrlPost: String!
+  tags: [String!]!
+  status: Status
+}
+
+type Post {
+  _id: String!
+  title: String!
+  summary: String
+  content: String!
+  imageUrlPost: String!
+  tags: [String!]!
+  status: Status!
+  reason: String!
+  createdBy: String!
+  likedBy: [String!]!
+  publishedAt: Float!
+  createdAt: Float
+  updatedAt: Float
+}
+
+type PostResponse {
+  _id: String!
+  title: String!
+  summary: String
+  content: String!
+  imageUrlPost: String!
+  tags: [String!]!
+  status: Status!
+  reason: String!
+  createdBy: UserResponse!
+  likedBy: [UserResponse!]!
+  publishedAt: Float
+  numberOfReport: Int
+  createdAt: Float
+  updatedAt: Float
+}
+
+type Statistical {
+  _id: String
+  count: Int
+}
+
+type Query {
+  posts(status: String, tags: String, limit: Int, offset: Int, keyword: String): [PostResponse!]!
+  postsByUser (_id: ID!, status: String, tags: String, limit: Int, offset: Int, keyword: String): [PostResponse!]!
+  post(_id: ID!): PostResponse!
+  numberOfPosts (status: String, tags: String, keyword: String): Int!
+  numberOfPostByUser (_id: ID!): Int!
+  statisticalPost(_id: ID): [Statistical]! @isAuthenticated
+  statisticalStatusPost: [Statistical]! @isAuthenticated
+}
+
+type Mutation {
+  createPost(input: PostInput!): Boolean @isAuthenticated
+  updatePost(_id: ID!, input: PostInput!): Boolean @isAuthenticated
+  approvePost(_id: ID!): Boolean @isAuthenticated @hasPermission(permission: "POST_APPROVE")
+  lockAndUnlockPost (_id: ID!, reason: String!): Boolean @isAuthenticated @hasPermission(permission: "POST_LOCK_AND_UNLOCK")
+  likeAndUnlikePost (_id: ID!): Boolean @isAuthenticated
+}

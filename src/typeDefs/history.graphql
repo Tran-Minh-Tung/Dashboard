@@ -1,0 +1,29 @@
+type HistoryContent {
+  _id: ID
+  name: String
+}
+
+enum HistoryAction {
+  LOCK
+  UNLOCK
+  APPROVE
+}
+
+enum HistoryType {
+  POST
+  USER
+}
+
+type History {
+  _id: ID!
+  type: HistoryType
+  action: HistoryAction 
+  actionBy: UserResponse 
+  content: HistoryContent
+  createdAt: Float
+  updatedAt: Float
+}
+
+type Query {
+  history: [History]! @isAuthenticated
+}

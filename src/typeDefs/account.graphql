@@ -1,0 +1,19 @@
+type Account {
+  _id:          ID!
+  username:     String
+  password:     String
+  permissions:  [String!]!
+  isLocked:     Boolean
+  reason:       String
+  createdAt:    Float
+  updatedAt:    Float
+}
+type Query {
+  accounts:     [Account]
+}
+
+type Mutation {
+  lockAndUnlockAccount(_id: ID!, reason: String!): Boolean @isAuthenticated @hasPermission(permission: "ACCOUNT_LOCK_AND_UNLOCK")
+  changePassword(oldPassword: String!, newPassword: String!): Boolean @isAuthenticated
+  changePermissions(_id: ID!, permissions: [String]): Boolean @isAuthenticated @hasPermission(permission: "AUTHORIZATION")
+}

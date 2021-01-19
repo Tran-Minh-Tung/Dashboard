@@ -1,0 +1,31 @@
+type Target {
+  _id: ID
+  name: String
+}
+
+type Report {
+  _id: ID!
+  reportedBy: UserResponse
+  content: String
+  type: String
+  target: Target
+  createdAt: Float
+  updatedAt: Float
+}
+
+input ReportInput {
+  content: String
+  type: String
+  idTarget: String
+}
+
+type Query {
+  report(idTarget: String): [Report]! @isAuthenticated
+  reportByType(type: String!): [Report]! @isAuthenticated
+}
+
+type Mutation {
+  createReport(input: ReportInput!): Boolean @isAuthenticated
+}
+
+

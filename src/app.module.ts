@@ -1,0 +1,29 @@
+import { CacheModule, Module, HttpModule } from '@nestjs/common'
+import { GraphQLModule } from '@nestjs/graphql'
+import { TypeOrmModule } from '@nestjs/typeorm'
+import { CacheService, GraphqlService, TypeormService } from './config'
+import { AppController } from './app.controller'
+import { DateScalar } from './config/graphql/scalars/date.scalar'
+import { UploadScalar } from './config/graphql/scalars/upload.scalar'
+import { ScheduleModule } from '@nestjs/schedule'
+
+import * as Resolvers from './resolvers'
+
+@Module({
+	imports: [
+		GraphQLModule.forRootAsync({
+			useClass: GraphqlService
+		}),
+		TypeOrmModule.forRootAsync({
+			useClass: TypeormService
+		}),
+		// CacheModule.registerAsync({
+		// 	useClass: CacheService
+		// }),
+		// ScheduleModule.forRoot(),
+		// HttpModule,
+	],
+	// controllers: [AppController],
+	providers: [...Object.values(Resolvers)]
+})
+export class AppModule {}

@@ -1,0 +1,8 @@
+type Permission {
+  code: String!
+  name: String!
+}
+
+type Query {
+  permissions: [Permission!]! @isAuthenticated @hasPermission(permission: "AUTHORIZATION")
+}

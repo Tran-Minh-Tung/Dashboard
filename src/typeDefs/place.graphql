@@ -1,0 +1,38 @@
+
+input CreatePlaceInput {
+  name: String!
+  description: String
+  startAt: Float
+  endAt: Float
+}
+
+input UpdatePlaceInput {
+  description: String
+  startAt: Float
+  endAt: Float
+}
+
+type Place {
+  _id: ID!
+  name: String
+  createdBy: UserResponse
+  albums: [Album]
+  description: String
+  startAt: Float
+  endAt: Float
+  createdAt: Float
+  updatedAt: Float
+}
+
+type Query {
+  placesByUser (_id: ID!): [Place!]!
+  numberOfPlace (_id: ID!): Int!
+}
+
+type Mutation {
+  createPlace (input: CreatePlaceInput!): Boolean @isAuthenticated
+  updatePlace (_id: ID!, input: UpdatePlaceInput!): Boolean @isAuthenticated
+  deletePlace (_id: ID!): Boolean @isAuthenticated
+  addAlbum (_id: ID!, albumName: String!): Place @isAuthenticated
+  removeAlbum(_id: ID!, idAlbum: ID!): Boolean @isAuthenticated
+}

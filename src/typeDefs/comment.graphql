@@ -1,0 +1,23 @@
+type Comment {
+  _id: ID!
+  commentBy: UserResponse
+  idPost: String
+  content: String
+  createdAt: Float
+  updatedAt: Float
+}
+
+input CommentInput {
+  idPost: String!
+  content: String!
+}
+
+type Query {
+  comments(idPost: ID!, limit: Int!, offset: Int!): [Comment!]!
+}
+
+type Mutation {
+  createComment(input: CommentInput!): Comment! @isAuthenticated
+  updateComment(_id: ID!, input: CommentInput!): Comment! @isAuthenticated
+  deleteComment(_id: ID!): Boolean @isAuthenticated
+}

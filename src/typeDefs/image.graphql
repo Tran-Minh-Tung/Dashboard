@@ -1,0 +1,14 @@
+type Image {
+  _id: ID!
+  url: String!
+  createdAt: Float
+  updatedAt: Float
+}
+
+type Query {
+  images: [Image!]!
+}
+
+type Mutation {
+  createImage(url: String!): Boolean @isAuthenticated
+}

@@ -1,0 +1,19 @@
+# auth
+directive @isAuthenticated on FIELD | FIELD_DEFINITION
+directive @hasPermission(permission: String) on FIELD | FIELD_DEFINITION
+# directive @hasScope(scope: [String]) on QUERY | FIELD
+# function
+# validate
+directive @call on FIELD_DEFINITION
+# format
+
+scalar JSON
+scalar JSONObject
+scalar Date
+scalar Upload
+
+schema {
+	query: Query
+	mutation: Mutation
+	# subscription: Subscription
+}

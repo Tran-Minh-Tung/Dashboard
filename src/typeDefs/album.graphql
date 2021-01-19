@@ -1,0 +1,20 @@
+type Album {
+  _id: ID!
+  name: String
+  images: [Image]
+  createdAt: Float
+  updatedAt: Float
+}
+
+type Query {
+  album (_id: ID!): Album
+  albumsByUser (_id: ID!): [Album]!
+}
+
+type Mutation {
+  createAlbum (name: String!): Album @isAuthenticated
+  deleteAlbum (_id: ID!): Boolean @isAuthenticated
+  addImage (_id: ID!, imageUrl: String): Album @isAuthenticated
+  addMultiImage(_id:ID!, imageUrls: [String]): Album @isAuthenticated
+  removeImage(_id: ID!, idImage: String): Boolean @isAuthenticated
+}

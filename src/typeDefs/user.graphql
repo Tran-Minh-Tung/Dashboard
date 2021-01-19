@@ -1,0 +1,79 @@
+input CreateUserInput {
+	FBID: String
+	name: String
+	gender: String
+	birthday: Float
+	address: String
+	email: String
+	imageUrl: String
+	username: String
+	password: String
+	permissions: [String]
+}
+
+input UpdateUserInput {
+	name: String
+	gender: String
+	birthday: Float
+	address: String
+	email: String
+	description: String
+}
+
+input LoginUserInput {
+	FBID: String
+	username: String
+	password: String
+}
+
+type LoginResponse {
+	accessToken: String
+}
+
+type User {
+	_id: ID!
+	idAccount: String!
+	name: String!
+	gender: String
+	followingBy: [String]
+	birthday: Float
+	address: String
+	email: String
+	imageUrl: String
+	description: String
+	createdAt: Float!
+	updatedAt: Float!
+}
+
+type UserResponse {
+	_id: ID
+	account: Account
+	name: String
+	gender: String
+	followers: [UserResponse]
+	birthday: Float
+	address: String
+	email: String
+	imageUrl: String
+	description: String
+	numberOfReport: Int
+	createdAt: Float
+	updatedAt: Float
+}
+
+type Query {
+	me: UserResponse @isAuthenticated
+	users (limit: Int, offset: Int, keyword: String): [UserResponse!]! @isAuthenticated @hasPermission(permission: "ACCOUNT_LOCK_AND_UNLOCK")
+	user(_id: ID!): UserResponse
+	numberOfUsers(keyword: String): Int!
+	userHighestPost: [UserResponse!]!
+}
+
+type Mutation {
+	register(input: CreateUserInput!): Boolean
+	login(input: LoginUserInput!): LoginResponse
+	followAndUnfollow(_id: ID!): Boolean! @isAuthenticated
+	createUser(input: CreateUserInput!): UserResponse! @isAuthenticated @hasPermission(permission: "USER_CREATE")
+	updateUser (input: UpdateUserInput!, _id: String): UserResponse! @isAuthenticated
+	updateAvatar (url: String!): Boolean! @isAuthenticated
+}
